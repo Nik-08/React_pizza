@@ -1,6 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-function SortPopup({ items }) {
+const SortPopup = React.memo(function SortPopup({
+  items,
+  activeSortType,
+  onClickSortType,
+}) {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
 
   const sortReference = React.useRef();
@@ -10,7 +15,8 @@ function SortPopup({ items }) {
   };
 
   const handleOutsideClick = (e) => {
-    if (!e.path.includes(sortReference.current)) {
+    const path = e.path || (e.composedPath && e.composedPath());
+    if (!path.includes(sortReference.current)) {
       setVisiblePopup(false);
     }
   };
@@ -23,11 +29,13 @@ function SortPopup({ items }) {
   const [activeItem, setActiveItem] = React.useState(0);
 
   const onSelectState = (index) => {
-    setActiveItem(index);
+    if (onClickSortType) {
+      onClickSortType(index);
+    }
     setVisiblePopup(false);
   };
 
-  const activeLable = items[activeItem];
+  const activeLable = items.find((obj) => obj.type === activeSortType).name;
 
   return (
     <div ref={sortReference} className="sort">
@@ -52,13 +60,13 @@ function SortPopup({ items }) {
         <div className="sort__popup">
           <ul>
             {items &&
-              items.map((name, index) => (
+              items.map((obj, index) => (
                 <li
-                  className={activeItem === index ? "active" : ""}
-                  onClick={() => onSelectState(index)}
-                  key={`${name}_${index}`}
+                  className={activeSortType === obj.type ? "active" : ""}
+                  onClick={() => onSelectState(obj)}
+                  key={`${obj.type}_${index}`}
                 >
-                  {name}
+                  {obj.name}
                 </li>
               ))}
           </ul>
@@ -66,6 +74,16 @@ function SortPopup({ items }) {
       )}
     </div>
   );
-}
+});
+
+SortPopup.propTypes = {
+  activeSortType: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClickSortType: PropTypes.func.isRequired,
+};
+
+SortPopup.defaultProps = {
+  items: [],
+};
 
 export default SortPopup;
