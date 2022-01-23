@@ -1,12 +1,13 @@
 @import "../_variables";
 
 .pizza-block {
-  width: 280px;
+  max-width: 280px;
+  width: 100%;
   text-align: center;
   margin-bottom: 65px;
 
-  &:not(:nth-of-type(4n)) {
-    margin-right: 35px;
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 
   &__image {
@@ -41,7 +42,7 @@
         cursor: pointer;
         font-weight: 600;
         font-size: 14px;
-        @include noselect();
+
         &.active {
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);

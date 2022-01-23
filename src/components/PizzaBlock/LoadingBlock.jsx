@@ -1,7 +1,7 @@
-import React from "react";
-import ContentLoader from "react-content-loader";
+import React from 'react';
+import ContentLoader from 'react-content-loader';
 
-function PizzaLoadingBlock() {
+function LoadingBlock() {
   return (
     <ContentLoader
       className="pizza-block"
@@ -10,8 +10,7 @@ function PizzaLoadingBlock() {
       height={460}
       viewBox="0 0 280 460"
       backgroundColor="#f3f3f3"
-      foregroundColor="#ecebeb"
-    >
+      foregroundColor="#ecebeb">
       <circle cx="132" cy="142" r="115" />
       <rect x="0" y="273" rx="6" ry="6" width="280" height="26" />
       <rect x="0" y="310" rx="6" ry="6" width="280" height="84" />
@@ -21,4 +20,4 @@ function PizzaLoadingBlock() {
   );
 }
 
-export default PizzaLoadingBlock;
+export default LoadingBlock;
